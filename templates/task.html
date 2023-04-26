@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+<div class="top-contain">
+    <a href="/logout">
+        <button class="top-bar">Log Out</button>
+    </a>
+    <a href="/task">
+        <button class="top-bar">Task</button>
+    </a>
+    <a href="/ViewUsers">
+        <button class="top-bar">User Management</button>
+    </a>
+</div>
+<div class="h">
+    <h1>Task Tracker</h1>
+</div>
+<form action="/add" method="post">
+    <div class="register-container">
+        <h3>Add Task</h3>
+        <div class="form-item">
+            <label>Task Title:</label>
+            <input required type="text" name="title" placeholder="Task">
+        </div>
+        <div class="form-item">
+            <label>Description:</label>
+            <input type="text" name="description" placeholder="Description">
+        </div>
+        <div class="form-item">
+            <label>Due:</label>
+            <input required type="date" name="due">
+        </div>
+        <label>Assigned:</label>
+        <select required name="assigned" id="assigned" multiple>
+            <option value="All">All User</option>
+            {% for user in user_list %}
+                <option value="{{ user.name }}">{{ user.name }}</option>
+            {% endfor %}
+        </select>
+        <button class="submit-button" type="submit">Add</button>
+    </div>
+</form>
+<div class="top-contain">
+    <button class="top-bar filter-button" onclick="toggle_visibility('myTask')">My Task</button>
+    {% if user.access==1 %}
+        <button class="top-bar filter-button" onclick="toggle_visibility('allTask')">All Task</button>
+    {% endif %}
+    <button class="top-bar filter-button" onclick="toggle_visibility('createdTask')">Created Task</button>
+</div>
+{% if user.pinnedTask != "" %}
+    <div class="h">
+        <h1>Pinned Task</h1>
+    </div>
+    <div id="pinnedTask">
+        <div id="todo" class="todo">
+            <table>
+                <thead>
+                <th>Title<a href="/task/Title/0">&#9660;</a><a href="/task/Title/1">&#9650;</a></th>
+                <th>Description<a href="/task/Description/0">&#9660;</a><a href="/task/Description/1">&#9650;</a></th>
+                <th>Due Date<a href="/task/Due/0">&#9660;</a><a href="/task/Due/1">&#9650;</a></th>
+                <th>Assigned To<a href="/task/AssignedTo/0">&#9660;</a><a href="/task/AssignedTo/1">&#9650;</a></th>
+                <th>Status<a href="/task/Status/0">&#9660;</a><a href="/task/Status/1">&#9650;</a></th>
+                <th></th>
+                <th></th>
+                </thead>
+                <tbody>
+                {% for todo in todo_list %}
+                    {% if todo.id|string in user.pinnedTask %}
+                        <tr>
+                            <td class="title"><a href="/unpin/{{ todo.id }}"><img height="20px" width="20px"
+                                                                                  src="{{ url_for('static',filename='pin.png') }}"
+                                                                                  alt="pin"></a><a
+                                    href="/viewTask/{{ todo.id }}">{{ todo.title }}</a></td>
+                            <td>{{ todo.description }}</td>
+                            <td>{{ todo.due }}</td>
+                            <td>{{ todo.assigned }}</td>
+                            <td>{% if todo.complete == 0 %}
+                                <button class="notStarted">Not Started</button>
+                            {% elif todo.complete == 1 %}
+                                <button class="inProgress">In Progress</button>
+                            {% else %}
+                                <button class="complete">Complete</button>
+                            {% endif %}</td>
+                            <td><a href="/update/{{ todo.id }}">
+                                <button>Update</button>
+                            </a></td>
+                            {% if todo.createdBy == user.id or user.access == 1 %}
+                                <td><a href="/editTask/{{ todo.id }}">
+                                    <button>Edit</button>
+                                </a></td>
+                                <td><a href="/delete/{{ todo.id }}">
+                                    <button>Delete</button>
+                                </a></td>
+                            {% endif %}</tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+<div id="myTask">
+    <div class="h">
+        <h1>My Task</h1>
+    </div>
+    <div id="todo" class="todo">
+        <table>
+            <thead>
+            <th>Title<a href="/task/Title/0">&#9660;</a><a href="/task/Title/1">&#9650;</a></th>
+            <th>Description<a href="/task/Description/0">&#9660;</a><a href="/task/Description/1">&#9650;</a></th>
+            <th>Due Date<a href="/task/Due/0">&#9660;</a><a href="/task/Due/1">&#9650;</a></th>
+            <th>Assigned To<a href="/task/AssignedTo/0">&#9660;</a><a href="/task/AssignedTo/1">&#9650;</a></th>
+            <th>Status<a href="/task/Status/0">&#9660;</a><a href="/task/Status/1">&#9650;</a></th>
+            <th></th>
+            <th></th>
+            </thead>
+            <tbody>
+            {% for todo in todo_list %}
+                <tr>
+                    {% if user.name in todo.assigned or todo.assigned=="All" %}
+                        <td class="title"><a href="/pin/{{ todo.id }}"><img height="20px" width="20px"
+                                                                            src="{{ url_for('static',filename='pin.png') }}"
+                                                                            alt="pin"><a
+                                href="/viewTask/{{ todo.id }}">{{ todo.title }}</a></td>
+                        <td>{{ todo.description }}</td>
+                        <td>{{ todo.due }}</td>
+                        <td>{{ todo.assigned }}</td>
+                        <td>{% if todo.complete == 0 %}
+                            <button class="notStarted">Not Started</button>
+                        {% elif todo.complete == 1 %}
+                            <button class="inProgress">In Progress</button>
+                        {% else %}
+                            <button class="complete">Complete</button>
+                        {% endif %}</td>
+                        <td><a href="/update/{{ todo.id }}">
+                            <button>Update</button>
+                        </a></td>
+                        {% if todo.createdBy == user.id or user.access == 1 %}
+                            <td><a href="/editTask/{{ todo.id }}">
+                                <button>Edit</button>
+                            </a></td>
+                            <td><a href="/delete/{{ todo.id }}">
+                                <button>Delete</button>
+                            </a></td>
+                        {% endif %}</tr>
+
+                    {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="allTask">
+    {% if user.access==1 %}
+        <div class="h">
+            <h1>All Task</h1>
+        </div>
+        <div id="todo" class="todo">
+            <table>
+                <thead>
+                <tr>
+                    <th>Title<a href="/task/Title/0">&#9660;</a><a href="/task/Title/1">&#9650;</a></th>
+                    <th>Description<a href="/task/Description/0">&#9660;</a><a href="/task/Description/1">&#9650;</a>
+                    </th>
+                    <th>Due Date<a href="/task/Due/0">&#9660;</a><a href="/task/Due/1">&#9650;</a></th>
+                    <th>Assigned To<a href="/task/AssignedTo/0">&#9660;</a><a href="/task/AssignedTo/1">&#9650;</a></th>
+                    <th>Status<a href="/task/Status/0">&#9660;</a><a href="/task/Status/1">&#9650;</a></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for todo in todo_list %}
+                    <tr>
+                        <td class="title"><a href="/pin/todo.id"><img height="20px" width="20px"
+                                                                      src="{{ url_for('static',filename='pin.png') }}"
+                                                                      alt="pin"><a
+                                href="/viewTask/{{ todo.id }}">{{ todo.title }}</a></td>
+                        <td>{{ todo.description }}</td>
+                        <td>{{ todo.due }}</td>
+                        <td>{{ todo.assigned }}</td>
+                        <td>{% if todo.complete == 0 %}
+                            <button class="notStarted">Not Started</button>
+                        {% elif todo.complete == 1 %}
+                            <button class="inProgress">In Progress</button>
+                        {% else %}
+                            <button class="complete">Complete</button>{% endif %}
+                        </td>
+                        <td><a href="/update/{{ todo.id }}">
+                            <button>Update</button>
+                        </a></td>
+                        {% if todo.createdBy == user.id or user.access == 1 %}
+                            <td><a href="/editTask/{{ todo.id }}">
+                                <button>Edit</button>
+                            </a></td>
+                            <td><a href="/delete/{{ todo.id }}">
+                                <button>Delete</button>
+                            </a></td>
+                        {% endif %}</tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+<div id="createdTask">
+    <div class="h">
+        <h1>Task Created</h1>
+    </div>
+    <div id="todo" class="todo">
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Assigned To</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for todo in todo_list %}
+                {% if todo.createdBy == user.id %}
+                    <tr>
+                        <td class="title"><a href="/pin/todo.id"><img height="20px" width="20px"
+                                                                      src="{{ url_for('static',filename='pin.png') }}"
+                                                                      alt="pin"><a
+                                href="/viewTask/{{ todo.id }}">{{ todo.title }}</a></td>
+                        <td>{{ todo.description }}</td>
+                        <td>{{ todo.due }}</td>
+                        <td>{{ todo.assigned }}</td>
+                        <td>{% if todo.complete == 0 %}
+                            <button class="notStarted">Not Started</button>
+                        {% elif todo.complete == 1 %}
+                            <button class="inProgress">In Progress</button>
+                        {% else %}
+                            <button class="complete">Complete</button>{% endif %}
+                        </td>
+                        <td><a href="/update/{{ todo.id }}">
+                            <button>Update</button>
+                        </a></td>
+                        {% if todo.createdBy == user.id or user.access == 1 %}
+                            <td><a href="/editTask/{{ todo.id }}">
+                                <button>Edit</button>
+                            </a></td>
+                            <td><a href="/delete/{{ todo.id }}">
+                                <button>Delete</button>
+                            </a></td>
+                        {% endif %}</tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    {#shows only 'my task' on load#}
+    document.getElementById("myTask").addEventListener("load", toggle_visibility('myTask'));
+    {# Switched between the 3 divs depending on click#}
+
+    function toggle_visibility(id) {
+        document.getElementById('allTask').style.display = 'none';
+        document.getElementById('myTask').style.display = 'none';
+        document.getElementById('createdTask').style.display = 'none';
+        const e = document.getElementById(id);
+        if (e.style.display == 'block')
+            e.style.display = 'none';
+        else
+            e.style.display = 'block';
+    }
+</script>
+</html>

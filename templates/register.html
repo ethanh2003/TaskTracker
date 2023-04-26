@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<div class="index-wrapper">
+    <a class="index-header" href="/">
+        Task Tracker
+    </a>
+</div>
+
+</div>
+<body>
+
+<form action="/register" method="post">
+    <div class="register-container">
+        <h3 class="register-head">Register</h3>
+        <div class="form-item">
+            <label>Name:</label>
+            <input type="text" required name="name" value="{{ request.form['name'] }}">
+        </div>
+        <div class="form-item">
+            <label>Email:</label>
+            <input type="email" required name="email" value="{{ request.form['email'] }}">
+        </div>
+        <div class="form-item">
+            <label>Username:</label>
+            <input type="text" required name="username" value="{{ request.form['username'] }}">
+        </div>
+        <div class="form-item last">
+            <label>Password:</label> <!--Change to Dropdown of users-->
+            <input type="password" required name="password" value="{{ request.form['password'] }}">
+        </div>
+        <button class="submit-button" type="submit">Create An Account</button>
+    </div>
+</form>
+    {% if message %}
+        {% for row in message %}
+        <p class="error"><strong>Error:</strong> {{ row }}
+        {% endfor %}
+    {% endif %}
+</body>
+
+</html>

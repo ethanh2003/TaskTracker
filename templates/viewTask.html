@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+<div class="index-wrapper">
+    <a class="index-header" href="/">
+        Task Tracker
+    </a>
+    <div class="top-contain">
+        <a href="/logout">
+            <button class="top-bar">Log Out</button>
+        </a>
+        <a href="/task">
+            <button class="top-bar">Task</button>
+        </a>
+        <a href="/ViewUsers">
+            <button class="top-bar">User Management</button>
+        </a>
+    </div>
+</div>
+<div id="todo" class="todo">
+    <table>
+        <thead>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Due Date</th>
+        <th>Assigned To</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="title">{{ todo.title }}</td>
+            <td>{{ todo.description }}</td>
+            <td>{{ todo.due }}</td>
+            <td>{{ todo.assigned }}</td>
+            <td>{% if todo.complete == 0 %}
+                <button class="notStarted">Not Started</button>
+            {% elif todo.complete == 1 %}
+                <button class="inProgress">In Progress</button>
+            {% else %}
+                <button class="complete">Complete</button>
+            {% endif %}</td>
+            <td><a href="/update/{{ todo.id }}">
+                <button class="task-button">Update</button>
+            </a></td>
+            {% if todo.createdBy == user.id or user.access == 1 %}
+                <td><a href="/editTask/{{ todo.id }}">
+                    <button class="task-button">Edit</button>
+                </a></td>
+                <td><a href="/delete/{{ todo.id }}">
+                    <button class="task-button">Delete</button>
+                </a></td>
+            {% endif %}</tr>
+        </tbody>
+    </table>
+</div>
+{% if todo.comments %}
+    {% if todo.comments|length > 0 %}
+        <div class="comment-container"> <h2>Comments</h2>
+        <div>
+            {% for comment in todo.comments %}
+                {% for commentUser in user_list %}
+                    {% if commentUser.id==comment.user_id %}
+                        <div class="comment-card">
+                            <div>{{ comment.content }} </div>
+                            <div><b>&nbsp;-{{ commentUser.name }}</b></div>
+                            {% if user.access==1 or comment.user_id==user.id or todo.createdBy==user.id %}
+                                <a href="/deleteComment/{{ comment.id }}">
+                                    <button>Delete</button>
+                                </a>{% endif %}</div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endif %}
+</div>
+<form action="{{ url_for('new_comment', task_id=todo.id) }}" method="post">
+    <div class="submit-container">
+        <h2>Add a comment</h2>
+        <div>
+            {{ form.comment.label }} <br/> {{ form.comment }}
+        </div>
+        {{ form.submit }}
+
+    </div>
+</form>
+</body>
+</html>

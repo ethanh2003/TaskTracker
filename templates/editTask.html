@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<div class="index-wrapper">
+    <a class="index-header" href="/">
+        Task Tracker
+    </a>
+    <div class="top-contain">
+        <a href="/logout">
+            <button class="top-bar">Log Out</button>
+        </a>
+        <a href="/task">
+            <button class="top-bar">Task</button>
+        </a>
+        <a href="/ViewUsers">
+            <button class="top-bar">User Management</button>
+        </a>
+    </div>
+</div>
+<div class="todo">
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Due</th>
+            <th>Assigned</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <form action="/editTask/{{ todo.id }}" method="Post">
+            <td class="title"><input type="text" name="editTitle" value="{{ todo.title }}"></td>
+            <td><input type="text" name="editDescription " value="{{ todo.description }}"></td>
+            <td><input type="date" name="editDue" value="{{ todo.due }}"></td>
+            <td><select required name="assigned" id="assigned" multiple>
+                <option value="All">All User</option>
+                {% for user in user_list %}
+                    <option value="{{ user.name }}">{{ user.name }}</option>
+                {% endfor %}
+            </select></td>
+            <td><a href="/task">
+                <button type="submit" class="task-button">Update</button>
+            </a></td>
+        </form>
+        </tbody>
+    </table>
+</div>
+</html>

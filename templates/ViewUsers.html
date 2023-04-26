@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<div class="index-wrapper">
+    <a class="index-header" href="/">
+        Task Tracker
+    </a>
+    <div class="top-contain">
+        <a href="/logout">
+            <button class="top-bar">Log Out</button>
+        </a>
+        <a href="/task">
+            <button class="top-bar">Task</button>
+        </a>
+        <a href="/ViewUsers">
+            <button class="top-bar">User Management</button>
+        </a>
+    </div>
+</div>
+<h1>{{ error }}</h1>
+{% if user.access==1 %}
+    <body>
+
+    <form action="/ViewUsers" method="post">
+        <div class="register-container">
+            <h3 class="register-head">Register New User</h3>
+            <label>Name:</label>
+            <input required type="text" name="name" value="{{ request.form['name'] }}">
+            <br>
+            <label>Email:</label>
+            <input required type="text" name="email" value="{{ request.form['email'] }}">
+            <br>
+            <label>Username:</label>
+            <input required type="text" name="username" value="{{ request.form['username'] }}">
+            <br>
+            <label>Password:</label>
+            <input required type="text" name="password" value="{{ request.form['password'] }}">
+            <br>
+            <label>Access Level:</label>
+            <select name="access">
+                <option value="0">Basic</option>
+                <option value="1">Admin</option>
+            </select>
+
+            <br>
+            <button class="submit-button" type="submit">Add</button>
+            <br>
+        </div>
+    </form>
+    <div class="todo">
+        <table>
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Access</th>
+                <th>Password</th>
+                <th></th>
+                <th></th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in user_list %}
+                <tr>
+                    <form action="/updateUser/{{ user.id }}" method="Post">
+                        <td class="title"><input type="text" name="editUsername" value="{{ user.username }}"></td>
+                        <td><input type="text" name="editEmail" value="{{ user.email }}"></td>
+                        <td><input type="text" name="editName" value="{{ user.name }}"></td>
+                        <td><select name="editAccess">{% if user.access == 0 %}
+                            <option selected value="Basic">Basic</option>
+                            <option value="Admin">Admin</option> {% elif user.access == 1 %}
+                            <option value="Basic">Basic</option>
+                            <option selected value="Admin">Admin</option>{% endif %}"></select></td>
+                        <td><input type="password" name="updatePass" value={{ user.password }}>
+                        <td><a href="/updateUser/{{ user.id }}">
+                            <button type="submit" class="task-button">Update</button>
+                        </a></td>
+                    </form>
+                    <td><a href="/deleteUser/{{ user.id }}">
+                        <button class="task-button">Delete</button>
+                    </a>
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+{% else %}
+    <div class="todo">
+        <table>
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Password</th>
+                <th></th>
+                <th></th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <form action="/updateUser/{{ user.id }}" method="Post">
+                    <td class="title"><input type="text" name="editUsername" value="{{ user.username }}"></td>
+                    <td><input type="text" name="editEmail" value="{{ user.email }}"></td>
+                    <td><input type="text" name="editName" value="{{ user.name }}"></td>
+                    <td><input type="password" name="updatePass" value={{ user.password }}>
+                    <td><a href="/updateUser/{{ user.id }}">
+                        <button type="submit">Update</button>
+                    </a>
+                    <td><input type="hidden" id="editAccess" name="editAccess" value="{{ user.access }}"></td>
+                </form>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    {% if message %}
+        {% for row in message %}
+        <p class="error"><strong>Error:</strong> {{ row }}
+        {% endfor %}
+    {% endif %}
+
+{% endif %}
+</body>
+
+</html>

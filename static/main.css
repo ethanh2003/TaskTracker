@@ -1,0 +1,390 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+h1 {
+    color: whitesmoke;
+}
+
+
+h2 {
+    color: mediumseagreen;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+label:not(.ex) {
+    /*Creates design for submission forms*/
+    display: block;
+    float: left;
+    width: 120px;
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+
+}
+
+h3 {
+    font-weight: bold;
+    text-align: left;
+    font-family: 'Poppins', sans-serif;
+}
+
+h4 {
+    text-align: left;
+    margin: 1px;
+    font-family: 'Poppins', sans-serif;
+}
+
+th {
+    font-size: larger;
+    height: 75px;
+    width: 550px;
+    font-family: 'Poppins', sans-serif;
+}
+
+td {
+    height: 75px;
+
+}
+
+
+tbody {
+    font-family: 'Poppins', sans-serif;
+}
+
+td > a > button:not(.exclude) {
+    width: 200px;
+    height: 30px;
+    background-color: goldenrod;
+    border-style: none;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+button:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+strong {
+    font-family: 'Poppins', sans-serif;
+}
+
+.error {
+    font-family: 'Poppins', sans-serif;
+}
+
+/*Classes*/
+
+/*float container to go over h div*/
+
+
+/* table on the task page */
+.todo {
+    text-align: center;
+    background-color: whitesmoke;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2%;
+}
+
+.inProgress {
+    background-color: aqua;
+    border-style: none;
+    color: white;
+    height: 30px;
+    width: 70%;
+    border-radius: 30px 30px 30px 5px;
+}
+
+.complete {
+    background-color: mediumseagreen;
+    border-style: none;
+    color: white;
+    height: 30px;
+    width: 70%;
+    border-radius: 30px 30px 30px 5px;
+}
+
+.notStarted {
+    background-color: orangered;
+    border-style: none;
+    color: white;
+    height: 30px;
+    width: 70%;
+    border-radius: 30px 30px 30px 5px;
+}
+
+.title {
+    font-weight: bold;
+    font-size: larger;
+}
+
+.task-button {
+    border-radius: 30px 30px 30px 5px;
+}
+
+.task-button-delete {
+    border-radius: 30px 30px 30px 5px;
+}
+
+/* index.html */
+.top-bar {
+    background-color: mediumseagreen;
+    border-style: solid;
+    border-color: mediumaquamarine;
+    border-width: 3px;
+    color: white;
+    height: 50px;
+    width: 200px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-radius: 30px 30px 30px 5px;
+
+
+}
+
+.top-bar:hover {
+    background-color: seagreen;
+}
+
+
+.top-contain {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.index-header {
+    color: white;
+    display: flex;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 40px;
+    padding: 10px;
+
+}
+
+.index-header:hover {
+    text-decoration: underline;
+
+}
+
+.index-wrapper {
+    background-color: mediumseagreen;
+    display: flex;
+    padding: 40px;
+    border-radius: 30px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.index-text {
+    width: 50%;
+    margin-top: 10px;
+}
+
+* {
+    /*border: 1px solid red;*/
+    padding: 0px;
+    margin: 0px;
+}
+
+.body-text {
+    font-weight: normal;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px
+}
+
+/* register page */
+.submit-button {
+    background-color: mediumseagreen;
+    border-style: none;
+    color: white;
+    height: 50px;
+    width: 200px;
+    margin-top: 20px;
+    border-radius: 30px 30px 30px 5px;
+}
+
+.submit-button:hover {
+    background-color: seagreen;
+}
+
+input[type="submit"] {
+    color: white;
+}
+
+.input-form {
+    width: 100px;
+}
+
+.register-container {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    border: solid;
+    border-color: mediumaquamarine;
+    border-radius: 30px 30px 30px 5px;
+}
+
+
+div.h {
+    margin-top: 20px;
+    flex-direction: column;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    background-color: mediumseagreen;
+    display: flex;
+    padding: 40px;
+    border-radius: 30px;
+    justify-content: space-between;
+    color: white;
+
+
+}
+
+.register-container > form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    padding: 50px;
+}
+
+.register-container > form > input {
+    padding: 5px;
+    margin-top: 20px;
+}
+
+.register-container > form > input[type="submit"] {
+    background-color: mediumseagreen;
+    border-style: none;
+    padding: 10px;
+}
+
+.register-container > form > input[type="submit"]:hover {
+    background-color: seagreen;
+}
+
+
+div.form-item {
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.register-head {
+    font-size: 25px;
+    margin-bottom: 40px;
+    color: seagreen;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.filter-button {
+    margin-top: 50px;
+}
+
+.view-page {
+    margin-bottom: 20px;
+}
+
+/*login page*/
+.login-button {
+    background-color: red;
+    border-style: none;
+    color: ghostwhite;
+    height: 50px;
+    width: 200px;
+    margin-top: 20px;
+    border-radius: 30px 30px 30px 5px;
+}
+
+.login-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+/*Commenting*/
+
+.comment-container {
+    padding: 25px;
+    width: 80vw;
+
+
+}
+
+.comment-card {
+    text-align: left;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 2px seagreen solid;
+    border-radius: 10px 10px 10px 10px;
+    margin-top: 10px;
+
+
+}
+
+.comment-card > a {
+    align-self: flex-end;
+    font-family: 'Poppins', sans-serif;
+}
+
+.comment-card > a > button {
+    background-color: mediumseagreen;
+    border-style: none;
+    color: white;
+    height: 25px;
+    width: 100px;
+    margin-top: 10px;
+    border-radius: 30px 30px 30px 5px;
+}
+
+.comment-card > div {
+    font-family: 'Poppins', sans-serif;
+}
+
+.submit-container {
+    padding: 25px;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-container > input {
+    background-color: mediumseagreen;
+    border-style: none;
+    color: whitesmoke;
+    height: 25px;
+    width: 100px;
+    margin-top: 10px;
+    border-radius: 30px 30px 30px 5px;
+    align-self: flex-end;
+}
+
+.submit-container > input:hover {
+    background-color: seagreen;
+}
+
+textarea {
+    width: 80vw;
+    height: 100px;
+}

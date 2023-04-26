@@ -1,0 +1,29 @@
+<html lang="English">
+<head>
+    <title>Flask Intro - login page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+<div class="index-wrapper">
+    <a class="index-header" href="/">Task Tracker</a>
+</div>
+<div class="register-container">
+    <div class="login-container">
+        <h3 class="register-head">Log in</h3>
+        Don't have an account? <a href='/register'>Register here</a>
+    </div>
+    <form action="\login" method="post">
+        <input type="text" placeholder="Username" name="username" value="{{ request.form.username }}">
+        <input type="password" placeholder="Password" name="password" value="{{ request.form.password }}">
+        <input class="login-button" type="submit" value="Login">
+    </form>
+    {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+    {% endif %}
+    <h1>{{ message }}</h1>
+</div>
+</body>
+</body>
+</html>

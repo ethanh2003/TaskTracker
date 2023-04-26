@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+<div class="index-wrapper">
+    <a href="/" class="index-header">Task Tracker</a>
+    <div class="top-contain">
+
+        <a href="/register">
+            <button class="top-bar">Register</button>
+        </a>
+        <a href="/login">
+            <button class="top-bar">Login</button>
+        </a>
+    </div>
+</div>
+
+
+<div class="index-text">
+    <h3 class="body-text">A task tracker is a more intelligent version of a to-do list that helps users manage tasks and
+        assignments.
+        You can also integrate teams into the task tracker to manage tasks individually or in a group. This allows you
+        to prioritize tasks based on importance,
+        pin those tasks, and mark them as completed!</h3>
+</div>
+
+<h1>{{ message }}
+    <h1>
+        <h1>{{ message }}</h1>
+</body>
